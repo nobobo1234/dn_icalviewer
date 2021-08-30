@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ical from "node-ical";
 
-function App() {
+import TimeTable from "./components/TimeTable";
+
+const App = () => {
+  const [studentId, setStudentId] = useState("");
+  const [calendar, setCalendar] = useState([]);
+
+  const getICal = async () => {
+    const events = await ical.async.fromURL("https://noahvb.nl/213222.ics");
+
+    setCalendar(Object.values(events));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input value={studentId} onChange={(e) => setStudentId(e.target.value)} />
+      <button onClick={getICal}>Verkrijg rooster</button>
+
+      <TimeTable calendar={calendar} />
     </div>
   );
-}
+};
 
 export default App;
