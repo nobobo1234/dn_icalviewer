@@ -1,8 +1,10 @@
-import { useState } from 'react'
-import ical, { CalendarComponent } from 'node-ical';
+import { useState, useEffect } from 'react'
+import ical, { CalendarComponent } from 'node-ical'
 import PropTypes from 'prop-types'
 
 import Wrapper from './wrapper'
+
+const getEvents = async () => ical.async.fromURL('https://noahvb.nl/213222.ics')
 
 /**
  * Dit is de hoofdcomponent van de timetable.
@@ -12,13 +14,12 @@ import Wrapper from './wrapper'
 const TimeTable = ({ studentId, week, year }) => {
   const [calendar, setCalendar] = useState<CalendarComponent[]>([])
 
-  const getICal = async () => {
-    const events = await ical.async.fromURL('https://noahvb.nl/213222.ics');
+  useEffect(() => {
+    const events = getEvents()
+    if (calendar !== Object.values(events)) setCalendar(Object.values(events))
+  }, [studentId])
 
-    setCalendar(Object.values(events));
-  };
-
-  console.log(calendar)
+  console.log(calendar, studentId, week, year)
 
   return (
     <Wrapper>
@@ -38,4 +39,4 @@ TimeTable.defaultProps = {
   year: 2021,
 }
 
-export default TimeTable;
+export default TimeTable
