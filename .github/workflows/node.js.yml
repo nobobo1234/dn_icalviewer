@@ -4,8 +4,6 @@
 name: React check
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
