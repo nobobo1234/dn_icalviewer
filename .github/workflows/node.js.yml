@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: Linting and building
     runs-on: ubuntu-latest
     strategy:
       matrix:
